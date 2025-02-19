@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sinus - Earbuds</title>
   <!-- Import Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+      font-family: "Poppins", sans-serif;
     }
 
+    /* Make the body a simple white background */
     body {
       margin: 0;
       padding: 0;
-      background: #f1f1f1;
-      font-family: 'Poppins', sans-serif;
+      background: #fff;
+      font-family: "Poppins", sans-serif;
     }
 
     /* Sidebar styles */
@@ -40,13 +44,11 @@
       transform: translateX(0);
     }
 
-    .sidebar h1 {
-      margin-bottom: 40px;
-      font-size: 1.8rem;
-    }
-
+    /* We remove the old <h1>Sinus</h1> in the sidebar. */
     .sidebar ul {
       list-style-type: none;
+      padding: 0;
+      margin: 0;
     }
 
     .sidebar li {
@@ -70,7 +72,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       padding: 40px;
       position: relative;
     }
@@ -79,22 +81,49 @@
       margin-left: 250px;
     }
 
+    /* Menu button: replace "Menu" text with 3 thin lines */
     .menu-button {
       position: absolute;
       top: 20px;
       left: 20px;
       background-color: #333;
-      color: #fff;
       border: none;
-      padding: 10px 20px;
+      padding: 6px 8px;
       border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s ease;
-      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
     }
 
     .menu-button:hover {
       background-color: #555;
+    }
+
+    /* The 3 lines in the hamburger icon */
+    .menu-button span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background-color: #fff;
+    }
+
+    /* We add a top logo container to hold the new image in the middle of the page */
+    .top-logo {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .top-logo img {
+      /* reduce vertical size so text is closer to top */
+      width: auto;
+      max-height: 100px;
+      display: block;
+      margin: 0 auto;
     }
 
     /* Sections */
@@ -104,6 +133,7 @@
       align-items: center;
       justify-content: center;
       width: 100%;
+      margin-top: 20px;
     }
 
     .section.active {
@@ -116,20 +146,19 @@
       font-weight: 600;
       text-align: center;
     }
-    
 
-    .earbuds-model {
-      width: 300px;
-      height: 300px;
-      background: url('sinis_earbuds.png') center/cover no-repeat;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    /* IMAGE styling: keep the default ratio, shrink if needed. */
+    .earbud-image {
+      max-width: 150px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
     }
 
     .buttons {
       display: flex;
       gap: 10px;
+      margin-top: 20px;
     }
 
     .btn {
@@ -180,7 +209,7 @@
 <body>
   <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
-    <h1>Sinus</h1>
+    <!-- no more <h1>Sinus</h1> -->
     <ul class="menu">
       <li onclick="showCart()">Cart</li>
       <li onclick="showContact()">Contact Us</li>
@@ -190,12 +219,30 @@
 
   <!-- Main Content Wrapper -->
   <div class="content" id="content">
-    <button class="menu-button" onclick="toggleSidebar()">Menu</button>
+    <!-- The new hamburger menu icon (3 lines, no "Menu" text) -->
+    <button class="menu-button" onclick="toggleSidebar()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- New top middle logo -->
+    <div class="top-logo">
+      <img
+        src="https://media-hosting.imagekit.io//acbd457127df4f5b/sinis%20logo%20testing%20copy.png?Expires=1834549021&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=zhvMAE3UrMva7C1~FVSQiJzDlcSQjZqSElhrvR~~L-KIbe4f95RkHlBkSu-RLFNxvWGHmGfH~RB7oWAtkEE4J9tuNAJhAKF~UDADuYSas69U8ofp97GCpT2QpcQrJMxMyrnTtYgbdgzxLEu3KF4Pniw84-voNmqMQuVA0sDtUHUyQH~gF8hmh9c0~-HlMWijxErMcjEbMYsfrRSBdDazJWWdRpdIWe~uKIary0ZkdfTPts40~32SgwIMZnivQIe4gXwH3QTeCNVlRAq5l~tK-jXy9wzXlAVZpS9jOJBes8T3tr6u4pLMs-B2uzUEU0zCO1rzAIBs~uXf0DOztXxVpw__"
+        alt="Sinis Logo"
+      />
+    </div>
 
     <!-- Home Section -->
     <div class="section active" id="homeSection">
-      <h2 class="page-title">Sinus</h2>
-      <div class="earbuds-model"></div>
+            <!-- Use an IMG with a custom CSS class to preserve ratio -->
+      <img
+        class="earbud-image"
+        src="https://media-hosting.imagekit.io//92f375cdf48a4675/sinis_earbuds.png?Expires=1834546437&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=HsQ0fAdc4jre~5TVh3uetpF1jHDt67jC8VTc1ZVyRYf4rQqNroJlUWTV5mYadFU5qlCJWxbBlGOLEWdY-FMhxvs5TN-~fFi8BJSR8hXhgHtvatdME~WcFMsIeZ7iUpMZIV4-roy7r747EKAwF0jDdYuB~NST-IQs7kIGWkVzh-uRBUsiBENXxw9n3coD6WIw1XIMJSdhB01XX028dWzGHvY2JnofYFV6TBpmYMQ1zt6QZQJs4DPy~E5BjAgbeIbTyg-yMG8dvRiFcWPB23IST0jrHcmqh1Ar5AcLikQaPPTGeKZLT6S~lL-gdCgxCoSqxRGcsMelDssd5FhwnsmMGQ__"
+        alt="Earbuds"
+      />
+
       <div class="buttons">
         <button class="btn">Buy Now</button>
         <button class="btn" onclick="addToCart()">Add to Cart</button>
@@ -207,9 +254,9 @@
       <h2 class="page-title">Contact Us</h2>
       <form class="contact-form">
         <label for="name">Name</label>
-        <input type="text" id="name" placeholder="Your Name"/>
+        <input type="text" id="name" placeholder="Your Name" />
         <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Your Email"/>
+        <input type="email" id="email" placeholder="Your Email" />
         <label for="message">Message</label>
         <textarea id="message" rows="5" placeholder="Your Message"></textarea>
         <button class="btn" type="submit">Send</button>
@@ -230,16 +277,16 @@
 
     // Toggle the sidebar open/close
     function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const content = document.getElementById('content');
-      sidebar.classList.toggle('active');
-      content.classList.toggle('shifted');
+      const sidebar = document.getElementById("sidebar");
+      const content = document.getElementById("content");
+      sidebar.classList.toggle("active");
+      content.classList.toggle("shifted");
     }
 
     // Close the sidebar when mouse leaves
-    const sidebarElement = document.getElementById('sidebar');
-    sidebarElement.addEventListener('mouseleave', () => {
-      if (sidebarElement.classList.contains('active')) {
+    const sidebarElement = document.getElementById("sidebar");
+    sidebarElement.addEventListener("mouseleave", () => {
+      if (sidebarElement.classList.contains("active")) {
         toggleSidebar();
       }
     });
@@ -247,30 +294,30 @@
     // Add to cart functionality
     function addToCart() {
       cartCount++;
-      alert('Item added to cart!');
-      document.getElementById('cartCountDisplay').textContent = `You have ${cartCount} items in your cart.`;
+      alert("Item added to cart!");
+      document.getElementById("cartCountDisplay").textContent = `You have ${cartCount} items in your cart.`;
     }
 
     // Helper to show/hide sections
     function hideAllSections() {
-      document.getElementById('homeSection').classList.remove('active');
-      document.getElementById('contactSection').classList.remove('active');
-      document.getElementById('cartSection').classList.remove('active');
+      document.getElementById("homeSection").classList.remove("active");
+      document.getElementById("contactSection").classList.remove("active");
+      document.getElementById("cartSection").classList.remove("active");
     }
 
     function showHome() {
       hideAllSections();
-      document.getElementById('homeSection').classList.add('active');
+      document.getElementById("homeSection").classList.add("active");
     }
 
     function showContact() {
       hideAllSections();
-      document.getElementById('contactSection').classList.add('active');
+      document.getElementById("contactSection").classList.add("active");
     }
 
     function showCart() {
       hideAllSections();
-      document.getElementById('cartSection').classList.add('active');
+      document.getElementById("cartSection").classList.add("active");
     }
   </script>
 </body>
