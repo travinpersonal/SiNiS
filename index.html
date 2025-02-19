@@ -9,6 +9,10 @@
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
     rel="stylesheet"
   />
+
+  <!-- PayPal SDK (Replace YOUR_CLIENT_ID_HERE with your actual client ID) -->
+  <script src="https://www.paypal.com/sdk/js?client-id=AYBTAkwC7qH6V3IuyYjEWiGyGr95g280e7RUqbXIMIJvaTYtAOVRIQBgRQ6YpxQtwedYWbtBKmNpjs2f&currency=USD"></script>
+
   <style>
     * {
       margin: 0;
@@ -17,11 +21,11 @@
       font-family: "Poppins", sans-serif;
     }
 
-    /* Make the body a simple white background */
+    /* Make the body a simple background */
     body {
       margin: 0;
       padding: 0;
-      background: #fff;
+      background: #c6c7c6;
       font-family: "Poppins", sans-serif;
     }
 
@@ -44,7 +48,6 @@
       transform: translateX(0);
     }
 
-    /* We remove the old <h1>Sinus</h1> in the sidebar. */
     .sidebar ul {
       list-style-type: none;
       padding: 0;
@@ -81,12 +84,12 @@
       margin-left: 250px;
     }
 
-    /* Menu button: replace "Menu" text with 3 thin lines */
+    /* Menu button: 3 thin lines */
     .menu-button {
       position: absolute;
       top: 20px;
       left: 20px;
-      background-color: #333;
+      background-color: #000;
       border: none;
       padding: 6px 8px;
       border-radius: 5px;
@@ -111,7 +114,7 @@
       background-color: #fff;
     }
 
-    /* We add a top logo container to hold the new image in the middle of the page */
+    /* Top logo container */
     .top-logo {
       width: 100%;
       text-align: center;
@@ -119,7 +122,6 @@
     }
 
     .top-logo img {
-      /* reduce vertical size so text is closer to top */
       width: auto;
       max-height: 100px;
       display: block;
@@ -147,22 +149,22 @@
       text-align: center;
     }
 
-    /* IMAGE styling: keep the default ratio, shrink if needed. */
+    /* Interactive earbud image on home screen */
     .earbud-image {
       max-width: 150px;
       height: auto;
       display: block;
       margin: 0 auto;
+      cursor: pointer; /* indicates it's clickable */
+      transition: transform 0.3s ease;
     }
 
-    .buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
+    .earbud-image:hover {
+      transform: scale(1.1); /* enlarge on hover */
     }
 
     .btn {
-      background-color: #333;
+      background-color: #000;
       color: #fff;
       padding: 10px 20px;
       text-decoration: none;
@@ -204,12 +206,48 @@
       gap: 1rem;
     }
 
+    /* Product Page styling */
+    .product-section {
+      display: none;
+      width: 100%;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .product-section.active {
+      display: flex;
+    }
+
+    .product-image {
+      max-width: 300px;
+      height: auto;
+      border-radius: 6px;
+    }
+
+    .product-details {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 400px;
+    }
+
+    .product-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+
+    /* container for PayPal button (moved to cart) */
+    #paypal-button-container {
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
   <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
-    <!-- no more <h1>Sinus</h1> -->
     <ul class="menu">
       <li onclick="showCart()">Cart</li>
       <li onclick="showContact()">Contact Us</li>
@@ -219,14 +257,14 @@
 
   <!-- Main Content Wrapper -->
   <div class="content" id="content">
-    <!-- The new hamburger menu icon (3 lines, no "Menu" text) -->
-    <button class="menu-button" onclick="toggleSidebar()">
+    <!-- Hamburger menu icon -->
+    <button class="menu-button" id="menuBtn">
       <span></span>
       <span></span>
       <span></span>
     </button>
 
-    <!-- New top middle logo -->
+    <!-- Top logo -->
     <div class="top-logo">
       <img
         src="https://media-hosting.imagekit.io//acbd457127df4f5b/sinis%20logo%20testing%20copy.png?Expires=1834549021&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=zhvMAE3UrMva7C1~FVSQiJzDlcSQjZqSElhrvR~~L-KIbe4f95RkHlBkSu-RLFNxvWGHmGfH~RB7oWAtkEE4J9tuNAJhAKF~UDADuYSas69U8ofp97GCpT2QpcQrJMxMyrnTtYgbdgzxLEu3KF4Pniw84-voNmqMQuVA0sDtUHUyQH~gF8hmh9c0~-HlMWijxErMcjEbMYsfrRSBdDazJWWdRpdIWe~uKIary0ZkdfTPts40~32SgwIMZnivQIe4gXwH3QTeCNVlRAq5l~tK-jXy9wzXlAVZpS9jOJBes8T3tr6u4pLMs-B2uzUEU0zCO1rzAIBs~uXf0DOztXxVpw__"
@@ -236,16 +274,28 @@
 
     <!-- Home Section -->
     <div class="section active" id="homeSection">
-            <!-- Use an IMG with a custom CSS class to preserve ratio -->
+      <!-- The image is clickable to go to the product page -->
       <img
         class="earbud-image"
         src="https://media-hosting.imagekit.io//92f375cdf48a4675/sinis_earbuds.png?Expires=1834546437&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=HsQ0fAdc4jre~5TVh3uetpF1jHDt67jC8VTc1ZVyRYf4rQqNroJlUWTV5mYadFU5qlCJWxbBlGOLEWdY-FMhxvs5TN-~fFi8BJSR8hXhgHtvatdME~WcFMsIeZ7iUpMZIV4-roy7r747EKAwF0jDdYuB~NST-IQs7kIGWkVzh-uRBUsiBENXxw9n3coD6WIw1XIMJSdhB01XX028dWzGHvY2JnofYFV6TBpmYMQ1zt6QZQJs4DPy~E5BjAgbeIbTyg-yMG8dvRiFcWPB23IST0jrHcmqh1Ar5AcLikQaPPTGeKZLT6S~lL-gdCgxCoSqxRGcsMelDssd5FhwnsmMGQ__"
         alt="Earbuds"
+        onclick="showProduct()"
       />
+    </div>
 
-      <div class="buttons">
-        <button class="btn">Buy Now</button>
-        <button class="btn" onclick="addToCart()">Add to Cart</button>
+    <!-- PRODUCT PAGE Section -->
+    <div class="product-section" id="productSection">
+      <img
+        class="product-image"
+        src="https://media-hosting.imagekit.io//92f375cdf48a4675/sinis_earbuds.png?Expires=1834546437&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=HsQ0fAdc4jre~5TVh3uetpF1jHDt67jC8VTc1ZVyRYf4rQqNroJlUWTV5mYadFU5qlCJWxbBlGOLEWdY-FMhxvs5TN-~fFi8BJSR8hXhgHtvatdME~WcFMsIeZ7iUpMZIV4-roy7r747EKAwF0jDdYuB~NST-IQs7kIGWkVzh-uRBUsiBENXxw9n3coD6WIw1XIMJSdhB01XX028dWzGHvY2JnofYFV6TBpmYMQ1zt6QZQJs4DPy~E5BjAgbeIbTyg-yMG8dvRiFcWPB23IST0jrHcmqh1Ar5AcLikQaPPTGeKZLT6S~lL-gdCgxCoSqxRGcsMelDssd5FhwnsmMGQ__"
+        alt="SiNiS Pros"
+      />
+      <div class="product-details">
+        <h2 class="product-title">SiNiS Pros</h2>
+        <p>Experience top-notch audio quality with the latest SiNiS Pros earbuds. Enjoy noise cancellation, deep bass, and a stylish design.</p>
+        <p><strong>Price: $30</strong></p>
+        <!-- Single button that toggles text: Add to Cart -> View Cart -->
+        <button class="btn" id="productBtn" onclick="handleProductBtn()">Add to Cart</button>
       </div>
     </div>
 
@@ -268,34 +318,61 @@
       <h2 class="page-title">Your Cart</h2>
       <div class="cart-container">
         <p id="cartCountDisplay">You have 0 items in your cart.</p>
+        <!-- We'll show the total price here: -->
+        <p id="cartTotalDisplay">Total: $0</p>
+        <!-- PayPal Button Container is now here in the cart page -->
+        <div id="paypal-button-container"></div>
       </div>
     </div>
   </div>
 
   <script>
+    // Price and cart
+    const PRICE = 30; // each SiNiS Pros is $30
     let cartCount = 0;
+
+    const sidebar = document.getElementById("sidebar");
+    const content = document.getElementById("content");
+    const menuBtn = document.getElementById("menuBtn");
 
     // Toggle the sidebar open/close
     function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      const content = document.getElementById("content");
       sidebar.classList.toggle("active");
       content.classList.toggle("shifted");
     }
 
-    // Close the sidebar when mouse leaves
-    const sidebarElement = document.getElementById("sidebar");
-    sidebarElement.addEventListener("mouseleave", () => {
-      if (sidebarElement.classList.contains("active")) {
+    // pop out the sidebar when hovering over the menu button
+    menuBtn.addEventListener("mouseover", () => {
+      if (!sidebar.classList.contains("active")) {
         toggleSidebar();
       }
     });
+
+    // Close the sidebar when mouse leaves the sidebar
+    sidebar.addEventListener("mouseleave", () => {
+      if (sidebar.classList.contains("active")) {
+        toggleSidebar();
+      }
+    });
+
+    // function for the single button on product page
+    // toggles from Add to Cart -> View Cart
+    function handleProductBtn() {
+      const productBtn = document.getElementById("productBtn");
+
+      if (productBtn.textContent === "Add to Cart") {
+        addToCart();
+        productBtn.textContent = "View Cart";
+      } else {
+        showCart();
+      }
+    }
 
     // Add to cart functionality
     function addToCart() {
       cartCount++;
       alert("Item added to cart!");
-      document.getElementById("cartCountDisplay").textContent = `You have ${cartCount} items in your cart.`;
+      updateCartDisplays();
     }
 
     // Helper to show/hide sections
@@ -303,6 +380,7 @@
       document.getElementById("homeSection").classList.remove("active");
       document.getElementById("contactSection").classList.remove("active");
       document.getElementById("cartSection").classList.remove("active");
+      document.getElementById("productSection").classList.remove("active");
     }
 
     function showHome() {
@@ -318,7 +396,57 @@
     function showCart() {
       hideAllSections();
       document.getElementById("cartSection").classList.add("active");
+      updateCartDisplays();
+      renderPayPalButton();
     }
+
+    function showProduct() {
+      hideAllSections();
+      document.getElementById("productSection").classList.add("active");
+    }
+
+    // Update cart count & total
+    function updateCartDisplays() {
+      document.getElementById("cartCountDisplay").textContent = `You have ${cartCount} items in your cart.`;
+      const total = cartCount * PRICE;
+      document.getElementById("cartTotalDisplay").textContent = `Total: $${total}`;
+    }
+
+    // Render PayPal button in the Cart page only
+    function renderPayPalButton() {
+      // clear any previous buttons
+      const paypalContainer = document.getElementById("paypal-button-container");
+      paypalContainer.innerHTML = "";
+
+      if (typeof paypal !== "undefined" && cartCount > 0) {
+        const totalPrice = (cartCount * PRICE).toFixed(2);
+        paypal.Buttons({
+          createOrder: function(data, actions) {
+            return actions.order.create({
+              purchase_units: [{
+                amount: {
+                  value: totalPrice
+                },
+                description: "SiNiS Pros Earbuds"
+              }]
+            });
+          },
+          onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+              alert("Transaction completed by " + details.payer.name.given_name);
+            });
+          }
+        }).render("#paypal-button-container");
+      } else {
+        // if cart is empty or PayPal not loaded, no button
+        paypalContainer.innerHTML = "Cart is empty or PayPal not loaded.";
+      }
+    }
+
+    // on page load
+    document.addEventListener("DOMContentLoaded", function() {
+      showHome();
+    });
   </script>
 </body>
 </html>
